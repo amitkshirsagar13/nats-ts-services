@@ -28,7 +28,7 @@
 		4443
 	],
 	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "git config --global --add safe.directory /workspaces/nats-ts-services",
+	"postCreateCommand": "git config --global --add safe.directory /workspaces/nats-ts-services",
 	// Configure tool-specific properties.
 	"customizations": {
 		"vscode": {
