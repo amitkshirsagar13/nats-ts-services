@@ -1,0 +1,29 @@
+{
+    "compilerOptions": {
+        "alwaysStrict": true,
+        "declaration": false,
+        "esModuleInterop": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "noImplicitAny": true,
+        // "noUnusedLocals": true,
+        "noUnusedParameters": false,
+        "sourceMap": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "target": "es6",
+        "outDir": "./dist",
+        "baseUrl": ".",
+        "paths": {
+            "*": [
+                "node_modules/*"
+            ]
+        }
+    },
+    "include": [
+        "src/**/*",
+        "src/index.ts"
+    ],
+    "exclude": ["dist", "node_modules"]
+}

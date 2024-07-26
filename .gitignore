@@ -128,3 +128,25 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+node_modules
+!src/node_modules
+!test/node_modules
+!.vscode
+package-lock.json
+
+test/out/**
+!test/out/.keep
+out/**
+!out/.keep
+coverage
+.scannerwork
+junit.xml
+
+dist
+
+package-lock.json
+
+# Ignore all nats.io related configuration and jwt files
+jwt/
+resolver.conf

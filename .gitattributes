@@ -1,0 +1,6 @@
+/packages/node_modules/** linguist-generated=false
+*.so filter=lfs diff=lfs merge=lfs -text
+*.exe filter=lfs diff=lfs merge=lfs -text
+*.lnx64 filter=lfs diff=lfs merge=lfs -text
+*.tgz filter=lfs diff=lfs merge=lfs -text
+scripts/executable/* filter=lfs diff=lfs merge=lfs -text

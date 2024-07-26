@@ -1,0 +1,13 @@
+[{
+        "name": "MAJOR",
+        "increment": false
+    },
+    {
+        "name": "MINOR",
+        "increment": false
+    },
+    {
+        "name": "PATCH",
+        "increment": true
+    }
+]
