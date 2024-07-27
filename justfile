@@ -3,3 +3,6 @@ default:
 
 test:
   @npm test
+
+start-nats:
+  nats-server -c resolver.conf -m 4443
