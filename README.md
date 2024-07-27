@@ -56,7 +56,8 @@ nsc generate config --nats-resolver --sys-account SYS > resolver.conf
 
 ### Spin up the nats-server
 ```
-nats-server -c resolver.conf
+openssl req -newkey rsa:2048 -new -nodes -x509 -days 3650 -keyout secrets/key.pem -out secrets/cert.pem -addext "subjectAltName = DNS:nats.localtest.me"
+nats-server -c resolver.conf -ms 4443 --tls --tlscert=./secrets/cert.pem --tlskey=./secrets/key.pem
 nsc push -A
 ```
 
@@ -97,4 +98,7 @@ nats server report connections
 
 # Get account level message count
 nats server report accounts devops --sort in-msgs --top 10
+
+# List Micro Services
+nats micro ls
 ```
