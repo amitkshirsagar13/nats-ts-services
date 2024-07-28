@@ -1,12 +1,10 @@
-import { NatsConnection } from "nats";
 import { connectionToNats } from "./utils/connection";
 import { buildService } from "./nats-service/nats-service";
-import { format } from "path";
+import ctx from "./utils/srvCtx";
 
 const microService = async () => {
-  const nc: NatsConnection = await connectionToNats();
+  await connectionToNats();
   return buildService({
-    nc,
     name: "math",
     version: "1.0.0",
     description: "Math Service",
@@ -15,14 +13,16 @@ const microService = async () => {
 
 const getSrvRootEndpoint = async (rootPath: string) => {
   const srv = await microService();
-  return { root: srv.addGroup(rootPath), srv };
+  const root = srv.addGroup(rootPath);
+  ctx.addGroup(root);
+  return { root, srv };
 };
 
-const maxHandler = (srv: any) => {
+const maxHandler = () => {
   return (err: any, msg: any) => {
     if (err) {
       console.log("err", err);
-      srv.stop(err).finally(() => {});
+      ctx.getService().stop(err).finally(() => {});
     }
     const values:number[] = msg.json();
     console.log("input", values);
@@ -32,8 +32,8 @@ const maxHandler = (srv: any) => {
   };
 };
 
-const addEndpoint = async (srvRt: any, endpoint: string, handler: any) => {
-  srvRt.root.addEndpoint(endpoint, {
+const addEndpoint = async (endpoint: string, handler: any) => {
+  ctx.getGroup().addEndpoint(endpoint, {
     handler,
     metadata: {
       schema: "input a JSON serialized JSON array, output the largest value",
@@ -45,8 +45,8 @@ const addEndpoint = async (srvRt: any, endpoint: string, handler: any) => {
   });
 }
 
-const addEndpointNoHandler = async (srvRt: any, endpoint: string) => {
-  const max = srvRt.root.addEndpoint(endpoint, {
+const addEndpointNoHandler = async (endpoint: string) => {
+  const max = ctx.getGroup().addEndpoint(endpoint, {
     metadata: {
       schema: "input a JSON serialized JSON array, output the largest value",
       format: "application/json",
@@ -64,14 +64,14 @@ const addEndpointNoHandler = async (srvRt: any, endpoint: string) => {
     }
   })().catch((err) => {
     console.log("err", err);
-    srvRt.srv.stop(err).finally(() => {});
+    ctx.getService().stop(err).finally(() => {});
   });
 };
 
 const startService = async () => {
   const srvRt = await getSrvRootEndpoint("math");
-  addEndpoint(srvRt, "max", maxHandler(srvRt.srv));
-  addEndpointNoHandler(srvRt, "min");
+  addEndpoint("max", maxHandler());
+  addEndpointNoHandler("min");
 };
 
 startService();

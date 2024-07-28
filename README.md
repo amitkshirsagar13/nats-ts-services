@@ -27,14 +27,21 @@ nsc edit operator --require-signing-keys --account-jwt-server-url "nats://auth2.
 nsc add account worker
 nsc edit account worker --sk generate
 nsc add user --account worker --name worker-service
+nsc edit account --name worker --js-mem-storage 256m --js-disk-storage 1g --js-streams 3 --js-consumer 5
+nsc push -a worker -u nats://auth2.localtest.me:4222
 
 nsc add account desktop 
 nsc edit account desktop --sk generate 
 nsc add user --account desktop --name reader
+nsc edit account --name desktop --js-mem-storage 128m --js-disk-storage 512m --js-streams 2 --js-consumer 3
+nsc push -a desktop -u nats://auth2.localtest.me:4222
 
 nsc add account webapp 
 nsc edit account webapp --sk generate 
 nsc add user --account webapp --name webapp-user
+nsc edit account --name webapp --js-mem-storage 64m --js-disk-storage 128m --js-streams 1 --js-consumer 2
+nsc push -a desktop -u nats://auth2.localtest.me:4222
+
 ```
 - List keys
 ```
